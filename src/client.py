@@ -18,17 +18,28 @@ class client:
 
 
 	def messages(self):
-		message = raw_input('input lowercase sentence\n')
+    		
+		while True:    		
+    		
+				message = raw_input('input lowercase sentence\n')
+				if message == "Exit":
+					print("connection is closing...")
+					clientSocket.close()
+					print("connection is closed...")
+					break
+				clientSocket.sendto(message.encode(), (self.serverName, self.serverPort))
 
-		clientSocket.sendto(message.encode(), (self.serverName, self.serverPort))
-		print(self.serverPort)
+				receivedMessage, serverAddr = clientSocket.recvfrom(2048)
+				print (receivedMessage)
+			#	print(self.serverPort)
 
+	#This function is redundant don't delete it yet
 	def receives(self):
 		print("receiving....")
 		modifiedMessage, serverAddress = clientSocket.recvfrom(2048)
 
 		#print("from server", end='')
-		print(modifiedMessage)
+		print("from server : ", modifiedMessage)
 		
 		#clientSocket.close()
 
@@ -36,7 +47,6 @@ def main():
 	client1 = client('127.0.0.1', 40506)
 	client1.udpSocket()
 	client1.messages()
-	client1.receives()
 	#print(client1)
 
 main()
