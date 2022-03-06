@@ -15,7 +15,7 @@ print("-------------------WELCOME TO CHAT APP----------------------")
 udpHeader = ""
 
 name = raw_input("enter name ")
-clientSocket.sendto(name, (serverName, serverPort))
+clientSocket.sendto(name.encode(), (serverName, serverPort))
 
 
 
@@ -41,7 +41,6 @@ def send():
                 # dealing with data corruption before sending the data
                 packet_length = len(message)
                 checktotal = checksum(message)
-                print(checktotal)
                 #we dont know the destination port before we send so we make it static
                 udpHeader = struct.pack("ffff", serverPort,101, packet_length,checktotal)
                 headerMsg = msg + udpHeader
